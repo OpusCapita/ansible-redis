@@ -1,0 +1,16 @@
+
+- name: Disable transparent_hugepage in debian systems
+  block:
+  - name: install sysfsutils for disabling transparent huge pages
+    package:
+      name: sysfsutils
+      state: latest
+  - name: disable transparent huge pages for redis performance - persistent change
+    lineinfile:
+      path: /etc/sysfs.conf
+      create: true
+      regexp: '^kernel\/mm\/transparent\_hugepage\/enabled'
+      line: "kernel/mm/transparent_hugepage/enabled = never"
+  - name: disable transparent huge pages for redis performance - live change
+    shell: echo never {{ ">" }} /sys/kernel/mm/transparent_hugepage/enabled
+  when: ansible_os_family == "Debian"

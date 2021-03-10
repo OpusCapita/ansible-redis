@@ -9,6 +9,10 @@
   tags:
     - install
 
+- include: thp.yml
+  tags:
+    - install
+
 - include: install.yml
   tags:
     - install
